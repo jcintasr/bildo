@@ -180,7 +180,7 @@ class bildo(object):
         
     # Functions to write into disk
     def writeToDisk(self, output, data_type = None, band_names=None, meta_vortaroj=None, **kwargs):
-        from spatialFunctions import create_raster_
+        from .spatialFunctions import create_raster_
         from osgeo import gdal
        
         in_ds = self.dataSource
@@ -206,8 +206,8 @@ class bildo(object):
         -------
         Multidimensional np.array
         """
-        from spatialFunctions import readArrays_
-        from spatialFunctions import getXArray3D
+        from .spatialFunctions import readArrays_
+        from .spatialFunctions import getXArray3D
         
         if self.sensor == "MODIS" or self.format == "HDF":
             raise Warning("Sensor MODIS or format HDF can be demanding. I suggest to try another approach")
@@ -376,7 +376,7 @@ class parallelBildo(object):
 
 
     def createTiles(self, buffer = True):
-        from spatialFunctions import create_layer
+        from .spatialFunctions import create_layer
 
         if self.buffer is None and buffer == True:
             raise BufferNotAssign(self.buffer)
@@ -486,8 +486,8 @@ class parallelBildo(object):
 
         """
 
-        from spatialFunctions import masking_tiles, get_rasterExtent
-        from spatialFunctions import layer_within_raster
+        from .spatialFunctions import masking_tiles, get_rasterExtent
+        from .spatialFunctions import layer_within_raster
 
         if self.tiles_buffer_folder is not None:
             output_folder = self.tiles_buffer_folder
@@ -523,8 +523,8 @@ class parallelBildo(object):
 
         """
 
-        from spatialFunctions import masking_tiles, get_rasterExtent
-        from spatialFunctions import layer_within_raster
+        from .spatialFunctions import masking_tiles, get_rasterExtent
+        from .spatialFunctions import layer_within_raster
 
         if output_folder is None:
             output_folder = f"{self.tiles_folder}/computed"
