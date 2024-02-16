@@ -10,7 +10,6 @@ from osgeo import gdal
 from osgeo import ogr
 from osgeo import osr
 import numpy as np
-# import bildov2 as bildo
 import bildo
 import geopandas as gpd
 # import matplotlib.pyplot as plt
@@ -1087,7 +1086,7 @@ def resampleRasters(toDs, fromDs, output, resampleAlg="bilinear", use_warpedboun
                     warpOptions=[], warpMulti=False, warpVRT=False, **kwargs):
 
     # Loading libraries
-    import bildov2 as bildo
+    import bildo
     from osgeo import gdal, osr
     import numpy as np
     ## from osgeo import gdal
@@ -1479,7 +1478,7 @@ def rasterigi(bildo_, layer_ds, output="/tmp/rasterigitatmp.tif",
                 attribute="wwsos_min", format = "GTiff", allTouched = False,
                 outputType=gdal.GDT_Int16, noData=0,**kwargs):
 
-    import bildov2 as bildo
+    import bildo
     from osgeo import gdal, ogr
     import geopandas as gpd
 
