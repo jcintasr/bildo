@@ -1451,7 +1451,10 @@ def extractPointsFromRaster(gdf_points, bildoimg):
                 offsets = gdal.ApplyGeoTransform(invgt, x, y)
                 offsets = gdal.ApplyGeoTransform(invgt, x, y)
                 xoff, yoff = map(int, offsets)
-                tmp = bildoimg.arrays.values[0, yoff, xoff]
+                try:
+                    tmp = bildoimg.arrays.values[0, yoff, xoff]
+                except:
+                    tmp = np.nan
                 values.append(tmp)
         else:
             invgt = gdal.InvGeoTransform(bildoimg.geotransform)
@@ -1466,7 +1469,7 @@ def extractPointsFromRaster(gdf_points, bildoimg):
                     try:
                         tmp = bildoimg.arrays.values[k, yoff, xoff]
                     except:
-                        print("Outside of the image, assigning nan")
+                        # print("Outside of the image, assigning nan")
                         tmp = np.nan
                     values.append(tmp)
                 listarr.append(np.array(values))
