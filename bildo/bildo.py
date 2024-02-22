@@ -7,6 +7,7 @@ import numpy as np
 import pandas as pd
 import xarray as xr
 import copy
+from bildo import plotFunctions as pf
 
 
 class OpenImageDataSourceError(ValueError):
@@ -314,6 +315,12 @@ class bildo(object):
             df["y"] = df.y + midy
         gdf = gpd.GeoDataFrame(df, geometry = gpd.points_from_xy(df.x, df.y))
         return gdf
+
+    def plot(self, band=0, **kwargs):
+        pf.plotBildo(self, band=band, **kwargs)
+
+    def plotRGB(self, orderRGB=[0,1,2], **kwargs):
+        pf.plotRGB(self, orderRGB=orderRGB, **kwargs)
 
 #####################################################
 ############ PARALLEL CHILD CLASS ###################
