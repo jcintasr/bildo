@@ -94,14 +94,17 @@ def plotBildo(arr, band=0, figsize=(10,6), output=None, legend=True, extent=None
 
 
 def scaleMinMax(x):
+    import numpy as np
     out = (x-np.nanmin(x))/(np.nanmax(x)-np.nanmin(x))
     return out
 
 def scaleCCC(x, minp=2, maxp=98):
+    import numpy as np
     out = (x-np.nanpercentile(x,minp))/(np.nanpercentile(x,maxp)-np.nanpercentile(x,minp))
     return out
 
 def scaleStd(x, w=2):
+    import numpy as np
     std = np.nanstd(x)
     avg = np.nanmean(x)
     minimuma = avg-std*w

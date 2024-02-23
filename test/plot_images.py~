@@ -1,0 +1,12 @@
+import bildo
+from bildo import plotFunctions as pf
+
+if __name__ == "__main__":
+
+    path = "../res/test-img.tif"
+
+    img = bildo.openBildo(path)
+
+
+
+    ####################################

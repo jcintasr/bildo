@@ -320,6 +320,7 @@ class bildo(object):
         pf.plotBildo(self, band=band, **kwargs)
 
     def plotRGB(self, orderRGB=[0,1,2], **kwargs):
+        import numpy as np
         pf.plotRGB(self, orderRGB=orderRGB, **kwargs)
 
 #####################################################
