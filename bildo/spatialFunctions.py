@@ -1694,6 +1694,39 @@ def createMosaicVrt(list_of_images, output="/tmp/tmp.vrt"):
     return b
 
 
+def getCrsAsSrs(layer):
+    from osgeo import osr
+    srs = osr.SpatialReference()
+    initcrs = layer.crs
+    if type(initcrs) is str:
+        srs.ImportFromWkt(initcrs)
+    elif type(initcrs) is int:
+        srs.ImportFromEPSG(initcrs)
+    elif type(initcrs) is dict:
+        crs = initcrs["init"]
+        crs = crs.split("epsg:")[1]
+        srs.ImportFromEPSG(int(crs))
+    return srs
+
+
+def checkSameCRS(listlayers):
+    from osgeo import osr
+    listcomparisons = []
+    for l in range(1, len(listlayers)):
+        layer1 = listlayers[l-1]
+        layer2 = listlayers[l]
+        layer1crs = getCrsAsSrs(layer1)
+        layer2crs = getCrsAsSrs(layer2)
+
+        thesame = layer1crs.IsSame(layer2crs)
+        listcomparisons.append(thesame)
+    if np.sum(listcomparisons) == len(listlayers)-1:
+        out = True
+    else:
+        out = False
+    return out
+
+
 def intersects(multilayer, withlayer):
     """
     Implementation of intersect using GDAL, since the one from
