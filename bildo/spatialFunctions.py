@@ -1693,6 +1693,56 @@ def createMosaicVrt(list_of_images, output="/tmp/tmp.vrt"):
     b = bildo.openBildo(vrt)
     return b
 
+
+def intersects(multilayer, withlayer):
+    """
+    Implementation of intersect using GDAL, since the one from
+    geopandas (i.e. shapely) its giving me problems
+    ------------------------------------------------
+    Params:
+    - multilayer (geodataframe): the layer that is checking if its components intersect with withlayer
+    - withlayer (geodataframe): the layer to check which 'thelayer' components intersects
+    Returns:
+    - boolean list of intersections
+    """
+    from osgeo import ogr, osr
+
+    if checkSameCRS([multilayer, withlayer]) == False:
+        raise ValueError("CRS is not the same among the layers")
+
+    listintersects = []
+    for idx in range(withlayer.shape[0]):
+        withwkt = withlayer.iloc[idx].geometry.to_wkt()
+        withgeom = ogr.CreateGeometryFromWkt(withwkt)
+        listintersect = []
+        for i in range(multilayer.shape[0]):
+            wkt = multilayer.iloc[i].geometry.to_wkt()
+            multigeom = ogr.CreateGeometryFromWkt(wkt)
+            listintersect.append(multigeom.Intersect(withgeom))
+        listintersects.append(listintersect)
+    return listintersects
+
+def getIntersectingMultiGeoms(multilayer, withlayer):
+    """
+    Implementation of intersection using GDAL, since the one from
+    geopandas (i.e. shapely) its giving me problems
+    ------------------------------------------------
+    Params:
+    - multilayer (geodataframe): the layer that is checking if its components intersect with withlayer
+    - withlayer (geodataframe): the layer to check which 'thelayer' components intersects
+    Returns:
+    - Intersection GeoDataFrame based on multilayer
+    """
+
+    interidxs = intersects(multilayer, withlayer)
+    listintersection = []
+    for idx in interidxs:
+        listintersection.append(multilayer[idx])
+    intersection = pd.concat(listintersection)
+    return intersection
+        
+
+
 if __name__ == "__main__":
     a1 = np.array([[0, 2], [3, 4]])
     a2 = np.array([[100, 150], [50, 200]])
