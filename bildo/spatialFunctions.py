@@ -1528,7 +1528,7 @@ def rasterigi(bildo_, layer_ds, output="/tmp/rasterigitatmp.tif",
     return burned
 
 
-def poligonigi(bildoimg, fieldname, output = "/tmp.gpkg", mask=None, layername=None,
+def poligonigi(bildoimg, fieldname, output = "/tmp/tmp.gpkg", mask=None, layername=None,
                driver="GPKG", srs=None):
     """
     bildoimg -- Raster image of bildo class

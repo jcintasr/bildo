@@ -1,5 +1,5 @@
 (undo-tree-save-format-version . 1)
-"f95f7b656599f484cdddf670b3617b4cb94142e0"
+"725af02c7b5be29f48b02176828ecb505362075e"
 [nil nil nil nil (26063 7810 323668 105000) 0 nil]
 ([nil nil ((#("# import bildov2 as bildo
 " 0 25 (face tree-sitter-hl-face:comment fontified t) 25 26 (fontified t)) . 190) (undo-tree-id351 . -16) (undo-tree-id352 . -16) (undo-tree-id353 . -16) (undo-tree-id354 . -16) (undo-tree-id355 . -16) (undo-tree-id356 . -25) 206 (t 25984 6263 73334 684000)) nil (26063 7810 323667 288000) 0 nil])
@@ -17,5 +17,6 @@
 " 0 1 (fontified nil)) . -55804) (54944 . 55805)) nil (26094 54451 279720 113000) 0 nil])
 ([nil nil ((#("
 " 0 1 (rear-nonsticky t fontified t)) . 54944) (undo-tree-id0 . -1) (undo-tree-id1 . -1) (undo-tree-id2 . -1) (undo-tree-id3 . -1) (undo-tree-id4 . -1) (undo-tree-id5 . -1) (undo-tree-id6 . -1) (undo-tree-id7 . -1) (undo-tree-id8 . -1) (undo-tree-id9 . -1) (undo-tree-id10 . -1) (undo-tree-id11 . -1) (undo-tree-id12 . -1) (undo-tree-id13 . -1) (undo-tree-id14 . -1) (undo-tree-id15 . -1) (undo-tree-id16 . -1) (undo-tree-id17 . -1) (undo-tree-id18 . -1) (undo-tree-id19 . -1) (undo-tree-id20 . -1) (undo-tree-id21 . -1) (undo-tree-id22 . -1) (undo-tree-id23 . -1) (undo-tree-id24 . -1) (undo-tree-id25 . -1) (undo-tree-id26 . -1) (undo-tree-id27 . -1) (undo-tree-id28 . -1) (undo-tree-id29 . -1) (undo-tree-id30 . -1) (undo-tree-id31 . -1) (undo-tree-id32 . -1) (undo-tree-id33 . -1) (undo-tree-id34 . -1) (undo-tree-id35 . -1) (undo-tree-id36 . -1) (undo-tree-id37 . -1) (undo-tree-id38 . -1) (undo-tree-id39 . -1) (undo-tree-id40 . -1) (undo-tree-id41 . -1) (undo-tree-id42 . -1) (undo-tree-id43 . -1) (undo-tree-id44 . -1) (undo-tree-id45 . -1) (undo-tree-id46 . -1) (undo-tree-id47 . -1) (undo-tree-id48 . -1) (undo-tree-id49 . -1)) nil (26094 54451 279716 855000) 0 nil])
-([nil current ((apply -40 3130 3921 undo--wrap-and-run-primitive-undo 3130 3921 ((3898 . 3900) (3843 . 3845) (3809 . 3811) (3774 . 3776) (3743 . 3745) (3714 . 3716) (3643 . 3645) (3585 . 3587) (3553 . 3555) (3529 . 3531) (3497 . 3499) (3465 . 3467) (3435 . 3437) (3412 . 3414) (3351 . 3353) (3310 . 3312) (3267 . 3269) (3228 . 3230) (3189 . 3191) (3130 . 3132) 3880))) nil (26106 48074 370120 36000) 0 nil])
+([nil nil ((apply -40 3130 3921 undo--wrap-and-run-primitive-undo 3130 3921 ((3898 . 3900) (3843 . 3845) (3809 . 3811) (3774 . 3776) (3743 . 3745) (3714 . 3716) (3643 . 3645) (3585 . 3587) (3553 . 3555) (3529 . 3531) (3497 . 3499) (3465 . 3467) (3435 . 3437) (3412 . 3414) (3351 . 3353) (3310 . 3312) (3267 . 3269) (3228 . 3230) (3189 . 3191) (3130 . 3132) 3880))) nil (26106 48074 370120 36000) 0 nil])
+([nil current ((48981 . 48985) (t 26106 48074 416560 258000)) nil (26106 52342 370196 396000) 0 nil])
 nil
