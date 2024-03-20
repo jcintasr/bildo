@@ -137,33 +137,33 @@ def normalise(array):
     return normal
 
 
-def plotRGB(nArray, r=3, g=2, b=1, normalization=False):
-    import matplotlib.pyplot as plt
+# def plotRGB(nArray, r=3, g=2, b=1, normalization=False):
+#     import matplotlib.pyplot as plt
 
-    if type(nArray) is gdal.Dataset:
-        nArray = ds_readAsArray(nArray)
+#     if type(nArray) is gdal.Dataset:
+#         nArray = ds_readAsArray(nArray)
 
-    if type(nArray) is not np.ndarray:
-        print("nArray must be an array or a gdal.Dataset")
-        return None
+#     if type(nArray) is not np.ndarray:
+#         print("nArray must be an array or a gdal.Dataset")
+#         return None
 
-    red = nArray[:][:][r-1]
-    green = nArray[:][:][g-1]
-    blue = nArray[:][:][b-1]
+#     red = nArray[:][:][r-1]
+#     green = nArray[:][:][g-1]
+#     blue = nArray[:][:][b-1]
 
-    if normalization:
-        def normalise(array):
-            minimum, maximum = array.min(), array.max()
-            normal = (array - minimum)*((255)/(maximum - minimum))+0
-            return normal
+#     if normalization:
+#         def normalise(array):
+#             minimum, maximum = array.min(), array.max()
+#             normal = (array - minimum)*((255)/(maximum - minimum))+0
+#             return normal
 
-        red = normalise(red)
-        green = normalise(green)
-        blue = normalise(blue)
+#         red = normalise(red)
+#         green = normalise(green)
+#         blue = normalise(blue)
 
-    rgb = np.dstack((red, green, blue)).astype(int)
+#     rgb = np.dstack((red, green, blue)).astype(int)
 
-    plt.imshow(rgb)
+#     plt.imshow(rgb)
 
 
 def getLayerExtent(layer_path):
