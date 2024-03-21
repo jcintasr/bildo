@@ -1776,6 +1776,51 @@ def getIntersectingMultiGeoms(multilayer, withlayer):
         
 
 
+def bandsToColumns(array):
+    """
+    Transform numpy.array with tree dimensions into 2,
+    where col and rows are in only one column and bands in
+    different columns
+    """
+
+    if len(array.shape) > 2:
+        nbands, nrows, ncols = array.shape
+    else:
+        nrows, ncols = array.shape
+        nbands = 1
+    out_array = np.reshape(array, (-1, nbands, nrows*ncols))[0].transpose()
+
+    return out_array
+
+def epsgToCrsWkt(epsg):
+    from osgeo import osr
+    srs = osr.SpatialReference()
+    srs.ImportFromEPSG(epsg)
+    return srs.ExportToWkt()
+
+
+def rasterToPoints(bildo_, column_names, epsg, output=None, driver="GPKG", navalue=0):
+    xtl, xres, xtr, ytl, ytr, yres = bildo_.geotransform
+    ndim, nrows, ncols = bildo_.dims
+    total = ndim*nrows*ncols
+
+    xcoords = np.arange(xtl, xtl+(ncols*xres), xres)+np.abs(xres/2)
+    ycoords = np.arange(ytl, ytl+(nrows*yres), yres)+np.abs(yres/2)
+    mesh = np.meshgrid(xcoords, ycoords)
+    coordinates = np.concatenate([mesh[i].reshape(-1,1) for i in [0,1]], axis=1)
+
+    bandinfo = bandsToColumns(bildo_.arrays.values)
+
+    columns = ["X", "Y"] + column_names
+    xyband = np.concatenate([coordinates, bandinfo], axis=1)
+    df = pd.DataFrame(xyband, columns=columns)
+    geodf = gpd.GeoDataFrame(df, geometry=gpd.points_from_xy(df.X, df.Y), crs=epsgToCrsWkt(epsg))
+    geodf = geodf[geodf.auc != navalue]
+    if output is not None:
+        geodf.to_file(output, driver=driver)
+    return geodf
+
+
 if __name__ == "__main__":
     a1 = np.array([[0, 2], [3, 4]])
     a2 = np.array([[100, 150], [50, 200]])
