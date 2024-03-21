@@ -1809,13 +1809,18 @@ def rasterToPoints(bildo_, column_names, epsg, output=None, driver="GPKG", naval
     mesh = np.meshgrid(xcoords, ycoords)
     coordinates = np.concatenate([mesh[i].reshape(-1,1) for i in [0,1]], axis=1)
 
-    bandinfo = bandsToColumns(bildo_.arrays.values)
+    bandinfo = bandsToColumns(bildo_.arrays.values).astype(np.float64)
+    bandinfo[bandinfo == navalue] = np.nan
+
+    xyband = np.concatenate([coordinates, bandinfo], axis=1)
+    nonanidx = ~np.isnan(xyband[:,2:])
+    nonanidx = np.sum(nonanidx, axis=1) > 0
+    xyband = xyband[nonanidx,:]
+
 
     columns = ["X", "Y"] + column_names
-    xyband = np.concatenate([coordinates, bandinfo], axis=1)
     df = pd.DataFrame(xyband, columns=columns)
     geodf = gpd.GeoDataFrame(df, geometry=gpd.points_from_xy(df.X, df.Y), crs=epsgToCrsWkt(epsg))
-    geodf = geodf[geodf.auc != navalue]
     if output is not None:
         geodf.to_file(output, driver=driver)
     return geodf
