@@ -1800,6 +1800,8 @@ def epsgToCrsWkt(epsg):
 
 
 def rasterToPoints(bildo_, column_names, epsg, output=None, driver="GPKG", navalue=0):
+    import pandas as pd
+    import geopandas as gpd
     xtl, xres, xtr, ytl, ytr, yres = bildo_.geotransform
     ndim, nrows, ncols = bildo_.dims
     total = ndim*nrows*ncols
