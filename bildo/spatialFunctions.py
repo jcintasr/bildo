@@ -1799,8 +1799,6 @@ def epsgToCrsWkt(epsg):
     return srs.ExportToWkt()
 
 
-## USE CAREFULLY, POINTS ARE BIASED IN THE Y AXIS. IMPROVE OR USE THE ONE FROM
-## BILDO (toGeoDataFrame)
 def rasterToPoints(bildo_, column_names, epsg, output=None, driver="GPKG", navalue=0):
     import pandas as pd
     import geopandas as gpd
@@ -1809,7 +1807,7 @@ def rasterToPoints(bildo_, column_names, epsg, output=None, driver="GPKG", naval
     total = ndim*nrows*ncols
 
     xcoords = np.arange(xtl, xtl+(ncols*xres), xres)+np.abs(xres/2)
-    ycoords = np.arange(ytl, ytl+(nrows*yres), yres)+np.abs(yres/2)
+    ycoords = np.arange(ytl, ytl+(nrows*yres), yres)-np.abs(yres/2)
     mesh = np.meshgrid(xcoords, ycoords)
     coordinates = np.concatenate([mesh[i].reshape(-1,1) for i in [0,1]], axis=1)
 
