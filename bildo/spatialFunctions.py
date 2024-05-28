@@ -1755,6 +1755,8 @@ def intersects(multilayer, withlayer):
         listintersects.append(listintersect)
     return listintersects
 
+
+
 def getIntersectingMultiGeoms(multilayer, withlayer):
     """
     Implementation of intersection using GDAL, since the one from
@@ -1774,6 +1776,40 @@ def getIntersectingMultiGeoms(multilayer, withlayer):
     intersection = pd.concat(listintersection)
     return intersection
         
+
+def getIntersection(multilayer, withlayer, out_wkt=False):
+    """
+    Implementation of intersect using GDAL, since the one from
+    geopandas (i.e. shapely) its giving me problems
+    ------------------------------------------------
+    Params:
+    - multilayer (geodataframe): the layer that is checking if its components intersect with withlayer
+    - withlayer (geodataframe): the layer to check which 'thelayer' components intersects
+    Returns:
+    - boolean list of intersections
+    """
+    from osgeo import ogr, osr
+
+    if checkSameCRS([multilayer, withlayer]) == False:
+        raise ValueError("CRS is not the same among the layers")
+
+    listintersects = intersects(multilayer, withlayer)
+    subaro = multilayer[listintersects[0]]
+
+    intersection_geometries = []
+    for idx in range(withlayer.shape[0]):
+        withwkt = withlayer.iloc[idx].geometry.to_wkt()
+        withgeom = ogr.CreateGeometryFromWkt(withwkt)
+        innerlist = []
+        for i in range(subaro.shape[0]):
+            mwkt = subaro.iloc[i].geometry.to_wkt()
+            mgeom = ogr.CreateGeometryFromWkt(mwkt)
+            intersection = mgeom.Intersection(withgeom)
+            if out_wkt:
+                intersection = intersection.ExportToWkt()
+            innerlist.append(intersection)
+        intersection_geometries.append(innerlist)
+    return intersection_geometries
 
 
 def bandsToColumns(array):
