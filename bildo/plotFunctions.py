@@ -2,6 +2,7 @@ import matplotlib.pyplot as plt
 import matplotlib.colors as clr
 import xarray as xr
 import bildo
+import numpy as np
 
 
 def plotBildo(arr, band=0, figsize=(10,6), output=None, legend=True, extent=None,
