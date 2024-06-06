@@ -414,7 +414,19 @@ def create_raster_(data, fn, data_type=None, template_ds=None, nodata=None, driv
                     for key, value in metadata.items():
                         metadata[str(key)] = str(value)
                     out_band.SetMetadata(metadata)
-                    del metadata, template_band
+
+                    ## prueba
+                    catnames = template_band.GetCategoryNames()
+                    if catnames is not None:
+                        out_band.SetCategoryNames(catnames)
+
+                    # colortable = gdal.ColorTable()
+                    colortable = template_band.GetColorTable()
+                    if colortable is not None:
+                        out_band.SetColorTable(colortable)
+                        out_band.SetRasterColorInterpretation(gdal.GCI_PaletteIndex)
+                    
+                    del metadata, template_band, catnames, colortable
 
             elif meta_vortaroj is None and template_ds is None:
                 pass
@@ -474,7 +486,18 @@ def create_raster_(data, fn, data_type=None, template_ds=None, nodata=None, driv
             for key, value in metadata.items():
                 metadata[str(key)] = str(value)
             out_band.SetMetadata(metadata)
-            del metadata, template_band
+
+            
+            catnames = template_band.GetCategoryNames()
+            if catnames is not None:
+                out_band.SetCategoryNames(catnames)
+
+            colortable = template_band.GetColorTable()
+            if colortable is not None:
+                out_band.SetColorTable(colortable)
+                out_band.SetRasterColorInterpretation(gdal.GCI_PaletteIndex)
+            
+            del metadata, template_band, colortable, catnames
             
         if len(data.shape) > 2: data = data[0]
         out_band.WriteArray(data)
