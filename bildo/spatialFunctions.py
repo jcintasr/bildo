@@ -11,6 +11,7 @@ from osgeo import ogr
 from osgeo import osr
 import numpy as np
 import bildo
+import pandas as pd
 import geopandas as gpd
 # import matplotlib.pyplot as plt
 # import time
