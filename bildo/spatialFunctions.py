@@ -1760,7 +1760,7 @@ def intersects(multilayer, withlayer):
     - multilayer (geodataframe): the layer that is checking if its components intersect with withlayer
     - withlayer (geodataframe): the layer to check which 'thelayer' components intersects
     Returns:
-    - boolean list of intersections
+    - boolean list of intersects
     """
     from osgeo import ogr, osr
 
