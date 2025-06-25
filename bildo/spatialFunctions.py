@@ -1461,6 +1461,8 @@ def extractPointsFromRaster(gdf_points, bildoimg):
     elif type(points_crs) is int:
         points_srs = osr.SpatialReference()
         points_srs.ImportFromEPSG(points_crs)
+    elif type(points_crs) is str:
+        points_srs = points_crs
     else:
         points_srs = osr.SpatialReference()
         points_srs.ImportFromWkt(points_crs.to_wkt())
