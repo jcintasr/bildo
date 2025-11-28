@@ -770,6 +770,13 @@ def reproject_(bildo_, output_folder=None, crs_to=25830, returnPath=False,
         image.dataSource.SetProjection(srsfrom.ExportToWkt())
         del srsfrom
 
+    if resampling == "nearest":
+        resampling = gdal.GRA_NearestNeighbour
+    elif resampling == "bilinear":
+        resampling = gdal.GRA_Bilinear
+    else:
+        pass
+    
     srs = osr.SpatialReference()
     if type(crs_to) is int:
         srs.ImportFromEPSG(crs_to)

@@ -8,6 +8,7 @@ import pandas as pd
 import xarray as xr
 import copy
 from bildo import plotFunctions as pf
+from bildo import spatialFunctions as sf
 
 
 class OpenImageDataSourceError(ValueError):
@@ -322,6 +323,9 @@ class bildo(object):
     def plotRGB(self, orderRGB=[0,1,2], **kwargs):
         import numpy as np
         pf.plotRGB(self, orderRGB=orderRGB, **kwargs)
+
+    def reproject(self, crs, **kwargs):
+        return sf.reproject_(self, crs_to=crs, **kwargs)
 
 #####################################################
 ############ PARALLEL CHILD CLASS ###################
