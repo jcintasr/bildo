@@ -1513,6 +1513,9 @@ def extractPointsFromRaster(gdf_points, bildoimg):
 def rasterigi(bildo_, layer_ds, output="/tmp/rasterigitatmp.tif",
                 attribute="wwsos_min", format = "GTiff", allTouched = False,
                 outputType=gdal.GDT_Int16, noData=0,**kwargs):
+    """
+    outputType: 1 Byte, 3 Int16, 5 Int32, 6 Float32, 7 Float64
+    """
 
     import bildo
     from osgeo import gdal, ogr
