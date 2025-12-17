@@ -1512,9 +1512,11 @@ def extractPointsFromRaster(gdf_points, bildoimg):
 
 def rasterigi(bildo_, layer_ds, output="/tmp/rasterigitatmp.tif",
                 attribute="wwsos_min", format = "GTiff", allTouched = False,
-                outputType=gdal.GDT_Int16, noData=0,**kwargs):
+                outputType=gdal.GDT_Int16, noData=0, xres=None, yres=None,**kwargs):
     """
-    outputType: 1 Byte, 3 Int16, 5 Int32, 6 Float32, 7 Float64
+    Parameters:
+       outputType: 1 Byte, 3 Int16, 5 Int32, 6 Float32, 7 Float64
+       xres, yres: X and Y resolution. If defined, it overwrites bildo_ resolution
     """
 
     import bildo
@@ -1540,8 +1542,10 @@ def rasterigi(bildo_, layer_ds, output="/tmp/rasterigitatmp.tif",
     else:
         raise ValueError("layer_ds should be a geopdandas.GeoDataFrame, a gdal.Dataset, or a str")
 
-    xres = bildo_.geotransform[1]
-    yres = bildo_.geotransform[5]
+    if xres is None and yres is None:
+        xres = bildo_.geotransform[1]
+        yres = bildo_.geotransform[5]
+
     xmin, xmax, ymin, ymax = bildo_.extent
     outbounds = [xmin, ymin, xmax, ymax]
     srs = bildo_.crs
