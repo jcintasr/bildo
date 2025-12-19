@@ -190,7 +190,7 @@ def getLayerExtent(layer_path):
 def create_raster(in_ds, fn, data, data_type, nodata=None, driver="GTiff",
                   band_names=None, createOverviews=False, crs=None,
                   GeoTransform=None, rows_cols=None, return_ds=False,
-                  compute_statistics=False, **kwargs):
+                  compute_statistics=True, **kwargs):
     """
     Based on Geoprocessing with python.
     Create a one-band GeoTiff
@@ -296,7 +296,7 @@ def create_raster(in_ds, fn, data, data_type, nodata=None, driver="GTiff",
 def create_raster_(data, fn, data_type=None, template_ds=None, nodata=None, driver="GTiff",
                    band_names=None, meta_vortaroj=None, createOverviews=False, crs=None,
                    GeoTransform=None, rows_cols=None, return_ds=False,
-                   compute_statistics=False, **kwargs):
+                   compute_statistics=True, **kwargs):
     """
     Based on Geoprocessing with python.
     Create a one-band GeoTiff
@@ -438,6 +438,12 @@ def create_raster_(data, fn, data_type=None, template_ds=None, nodata=None, driv
             # I change this, shoueld I change it again
             # out_band.FlushCache()
             if compute_statistics:
+                ## if compute statistics false, compute them by hand
+                ## avg = np.nanmean(data[k, :, :])
+                ## sd = np.nanstd(data[k, :, :])
+                ## minimuma = np.nanmin(data[k, :, :])
+                ## maksimumo = np.nanmax(data[k, :, :])
+                ## out_band.SetStatistics(minimuma, maksimumo, avg, sd)
                 out_band.ComputeStatistics(False)
             if createOverviews:
                 out_band.BuildOverViews('average', [2, 4, 8, 16, 32, 64])
