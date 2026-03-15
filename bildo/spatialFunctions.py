@@ -330,7 +330,6 @@ def create_raster_(data, fn, data_type=None, template_ds=None, nodata=None, driv
     band_names    - optional. It gives a name to each band for easier identification. It has to have same length than data dimensons.
     """
 
-    data_type = getGDALDataTypeFromNumpyDataType(data)
     if template_ds is None:
         if GeoTransform is None or crs is None:
             raise ValueError("If template_ds is None, then GeoTransform, and crs must be defined")
@@ -340,6 +339,7 @@ def create_raster_(data, fn, data_type=None, template_ds=None, nodata=None, driv
             pass
 
     if data_type is None:
+        data_type = getGDALDataTypeFromNumpyDataType(data)
         print("data_type is None, assuming all the bands has the same type as the first one.")
         data_type = template_ds.GetRasterBand(1).DataType
 
