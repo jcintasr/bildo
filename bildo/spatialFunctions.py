@@ -23,6 +23,27 @@ class NoneDsErrorClass(ValueError):
     #print(ValueError)
 
 
+def getGDALDataTypeFromNumpyDataType(array):
+    gdaldatatypes_vortaro = {
+        "int8": gdal.GDT_Byte,
+        "uint16": gdal.GDT_UInt16,
+        "int16": gdal.GDT_Int16,
+        "uint32": gdal.GDT_UInt32,
+        "int32": gdal.GDT_Int32,
+        "float32": gdal.GDT_Float32,
+        "float64": gdal.GDT_Float64,
+        "complex64": gdal.GDT_CFloat64
+    }
+    strtype = str(array.dtype)
+    try:
+        gdaltype = gdaldatatypes_vortaro[strtype]
+    except:
+        print("array format not found. Returning Unknown")
+        gdaltype = gdal.GDT_Unknown
+    return gdaltype
+    
+
+    
 def get_rasterExtent(raster, dictionary=False):
     if type(raster) is str:
         r = gdal.Open(raster)
@@ -309,10 +330,11 @@ def create_raster_(data, fn, data_type=None, template_ds=None, nodata=None, driv
     band_names    - optional. It gives a name to each band for easier identification. It has to have same length than data dimensons.
     """
 
+    data_type = getGDALDataTypeFromNumpyDataType(data)
     if template_ds is None:
         if GeoTransform is None or crs is None:
             raise ValueError("If template_ds is None, then GeoTransform, and crs must be defined")
-        elif data_type is None:
+        elif data_type is None or data_type == 0:
             raise ValueError("If template_ds is None, then data_type must be defined")
         else:
             pass
