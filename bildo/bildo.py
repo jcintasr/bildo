@@ -27,10 +27,6 @@ class OutputFileNotSpecified(ValueError):
     pass
 
 class bildo(object):
-    # from osgeo import gdal, osr
-
-    # import numpy as np
-    # import pandas as pd
 
     def __init__(self, parallel = False):
         # attrs
@@ -86,6 +82,7 @@ class bildo(object):
         return newobj
 
     ## Basic operations
+    ## ## addition
     def __add__(self, other, inplace=False):
         if inplace:
             if "bildo" in str(type(other)) or "xarray" in str(type(other)):
@@ -105,7 +102,7 @@ class bildo(object):
             return newobj
 
 
-
+    ## ## subtraction
     def __sub__(self, other, inplace=False):
         if inplace:
             if "bildo" in str(type(other)) or "xarray" in str(type(other)):
@@ -124,7 +121,7 @@ class bildo(object):
                 newobj.arrays = newobj.arrays - other
             return newobj
 
-
+    ## ## multiplication
     def __mul__(self, other, inplace=False):
         if inplace:
             if "bildo" in str(type(other)) or "xarray" in str(type(other)):
@@ -143,6 +140,7 @@ class bildo(object):
                 newobj.arrays = newobj.arrays * other
             return newobj
 
+    ## ## power
     def __pow__(self, other, inplace=False):
         if inplace:
             if "bildo" in str(type(other)) or "xarray" in str(type(other)):
@@ -161,6 +159,7 @@ class bildo(object):
                 newobj.arrays = newobj.arrays ** other
             return newobj
 
+    ## ## division
     def __truediv__(self, other, inplace=False):
         if inplace:
             if "bildo" in str(type(other)) or "xarray" in str(type(other)):
@@ -182,6 +181,18 @@ class bildo(object):
         
     # Functions to write into disk
     def writeToDisk(self, output, data_type = None, band_names=None, meta_vortaroj=None, **kwargs):
+        """
+        Description: Writes self arrays object into disk.
+        Params:
+            - self:          This bildo_ object
+            - output:        Path to save the image in desired format
+            - data_type:     The data type of the image to save. If left as None,
+                             it will try to detect the right format from the type of the numpy array
+            - band_names:    Possibility to name the bands of the raster. ONLY TESTED IN TIFF FORMAT
+            - meta_vortaroj: Dictionary with metadata modifications to pass to the GDAL image.
+                             ONLY TESTED ON TIFF FORMAT.
+            - **kwargs:      Extra parameters to pass to sf.create_raster_ function. 
+        """
         from .spatialFunctions import create_raster_
         from osgeo import gdal
        
@@ -192,8 +203,8 @@ class bildo(object):
         if in_ds is None:
             raise RuntimeError("source data source is None")
 
-        if data_type is None:
-            data_type = gdal.GDT_Float32
+        # if data_type is None:
+        #     data_type = gdal.GDT_Float32
            
         create_raster_(template_ds=in_ds, fn = output, data = data,
                        data_type = data_type, band_names=band_names,
