@@ -24,6 +24,13 @@ class NoneDsErrorClass(ValueError):
 
 
 def getGDALDataTypeFromNumpyDataType(array):
+    """
+    Description: Translate numpy data types to GDAL data types
+    Params:
+        - array:   Numpy array to get the np.dtype from.
+    Outputs:
+                   Integer associated to GDAL data type
+    """
     gdaldatatypes_vortaro = {
         "int8": gdal.GDT_Byte,
         "uint16": gdal.GDT_UInt16,
@@ -340,8 +347,9 @@ def create_raster_(data, fn, data_type=None, template_ds=None, nodata=None, driv
 
     if data_type is None:
         data_type = getGDALDataTypeFromNumpyDataType(data)
-        print("data_type is None, assuming all the bands has the same type as the first one.")
-        data_type = template_ds.GetRasterBand(1).DataType
+        # print("data_type is None, assuming all the bands has the same type as the first one.")
+        ## I commented this but I'm not sure
+        # data_type = template_ds.GetRasterBand(1).DataType
 
     driver = gdal.GetDriverByName(driver)
     #     print(band_names)

@@ -213,11 +213,13 @@ class bildo(object):
 
     def readArrays(self, third_dimension = None):
         """
-        Read all bands as numpy.narrays
-
-        Returns
-        -------
-        Multidimensional np.array
+        Description: Read all bands as numpy.narrays
+        Params:
+            - self:             This bildo_ object
+            - third_dimension:  Define more than one Band. If left as
+                                None, then it is automatically searched
+        Outputs:
+                                np.array with 3 dimensions
         """
         from .spatialFunctions import readArrays_
         from .spatialFunctions import getXArray3D
@@ -255,12 +257,12 @@ class bildo(object):
         
     def getRasterExtent(self):
         """
-        returns raster exent xmin, xmax, ymin, ymax
-
-        Returns
-        -------
-        List with xmin, xmax, ymin and ymax values.
-
+        Description: Get the raster extent [xmin, xmax, ymin, ymax] from the
+                     gdal.Dataset object and save it inside the class
+        Params:
+            - self:             This bildo object
+        Outputs:
+                                Save a list with the extent in self.extent
         """
 
         if self.dataSource == None:
@@ -312,7 +314,20 @@ class bildo(object):
         self.par = parallelBildo(self)
 
     def toGeoDataFrame(self, name="values", y="y", x="x", pixel_centroid = True):
-        import geopandas as gpd
+        """
+        Description:            
+                     
+        Params:
+            - self:             This bildo object
+            - name:             Name of the output field
+            - x:                Name of the X/longitude coordinate in the xr.array
+            - y:                Name of the Y/latitude coordinate in the xr.array
+            - pixel_centroid:   To use the center of the pixel as coordinate, instead of
+                                the Top-left corner
+        Outputs:
+                                GeoDataFrame with values at the pixel coordinates
+        """
+       import geopandas as gpd
         xarr = self.arrays
         if type(xarr) is xr.DataArray: 
             df = xarr.to_dataframe(name=name)
