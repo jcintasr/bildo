@@ -1521,6 +1521,12 @@ def extractPointsFromRaster(gdf_points, bildoimg):
                 offsets = gdal.ApplyGeoTransform(invgt, x, y)
                 xoff, yoff = map(int, offsets)
                 try:
+                    xoff, yoff = map(int, offsets)
+                except:
+                    print("POINTS OUTSIDE RASTER EXTENT. Omiting them")
+                    values.append(np.nan)
+                    continue
+                try:
                     tmp = bildoimg.arrays.values[0, yoff, xoff]
                 except:
                     tmp = np.nan
