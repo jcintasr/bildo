@@ -1920,12 +1920,14 @@ def epsgToCrsWkt(epsg):
 def rasterToPoints(bildo_, column_names, epsg, output=None, driver="GPKG", navalue=0):
     import pandas as pd
     import geopandas as gpd
-    xtl, xres, xtr, ytl, ytr, yres = bildo_.geotransform
+    ## *10000 because of scaling problems
+    xtl, xres, xtr, ytl, ytr, yres = (i*10000 for i in bildo_.geotransform)
     ndim, nrows, ncols = bildo_.dims
     total = ndim*nrows*ncols
 
-    xcoords = np.arange(xtl, xtl+(ncols*xres), xres)+np.abs(xres/2)
-    ycoords = np.arange(ytl, ytl+(nrows*yres), yres)-np.abs(yres/2)
+    ## *0.0001 for coming back to right res
+    xcoords = (np.arange(xtl, xtl+(ncols*xres), xres)+np.abs(xres/2))*0.0001
+    ycoords = (np.arange(ytl, ytl+(nrows*yres), yres)-np.abs(yres/2))*0.0001
     mesh = np.meshgrid(xcoords, ycoords)
     coordinates = np.concatenate([mesh[i].reshape(-1,1) for i in [0,1]], axis=1)
 
@@ -1936,7 +1938,6 @@ def rasterToPoints(bildo_, column_names, epsg, output=None, driver="GPKG", naval
     nonanidx = ~np.isnan(xyband[:,2:])
     nonanidx = np.sum(nonanidx, axis=1) > 0
     xyband = xyband[nonanidx,:]
-
 
     columns = ["X", "Y"] + column_names
     df = pd.DataFrame(xyband, columns=columns)
