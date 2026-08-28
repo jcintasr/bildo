@@ -327,7 +327,7 @@ class bildo(object):
         Outputs:
                                 GeoDataFrame with values at the pixel coordinates
         """
-       import geopandas as gpd
+        import geopandas as gpd
         xarr = self.arrays
         if type(xarr) is xr.DataArray: 
             df = xarr.to_dataframe(name=name)
