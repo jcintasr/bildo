@@ -454,8 +454,11 @@ def create_raster_(data, fn, data_type=None, template_ds=None, nodata=None, driv
                     # colortable = gdal.ColorTable()
                     colortable = template_band.GetColorTable()
                     if colortable is not None:
-                        out_band.SetColorTable(colortable)
-                        out_band.SetRasterColorInterpretation(gdal.GCI_PaletteIndex)
+                        if data_type in [gdal.GDT_UInt16, gdal.GDT_Byte]:
+                            out_band.SetColorTable(colortable)
+                            out_band.SetRasterColorInterpretation(gdal.GCI_PaletteIndex)
+                        else:
+                            warnings.warn("Color table removed because array type is not UInt16 or Byte.")
                     
                     del metadata, template_band, catnames, colortable
 
@@ -531,8 +534,11 @@ def create_raster_(data, fn, data_type=None, template_ds=None, nodata=None, driv
 
             colortable = template_band.GetColorTable()
             if colortable is not None:
-                out_band.SetColorTable(colortable)
-                out_band.SetRasterColorInterpretation(gdal.GCI_PaletteIndex)
+                if data_type in [gdal.GDT_UInt16, gdal.GDT_Byte]:
+                    out_band.SetColorTable(colortable)
+                    out_band.SetRasterColorInterpretation(gdal.GCI_PaletteIndex)
+                else:
+                    warnings.warn("Color table removed because array type is not UInt16 or Byte.")
             
             del metadata, template_band, colortable, catnames
             
